@@ -3,8 +3,11 @@ import { ClientOptions, GuildConfigOptions } from "../utils/constants.js";
 import { readdirSync } from "node:fs";
 import Listener from "./Listener.js";
 import Command from "./Command.js";
+import { PrismaClient } from "@prisma/client";
 
 export class Client extends DiscordClient {
+    public db = new PrismaClient();
+
     public developerId?: string = "840213882147831879";
     public defaultPrefix?: string = "!";
 
@@ -44,6 +47,7 @@ export class Client extends DiscordClient {
                 command.name = command.name.toLowerCase();
 
                 command.context = {
+                    db: this.db,
                     client: this,
                     directory: dir,
                 };

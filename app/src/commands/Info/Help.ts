@@ -42,6 +42,7 @@ export default abstract class HelpCommand extends Command {
             return message.reply({
                 embeds: [
                     {
+                        color: 0xd1daf9,
                         author: {
                             name: `${this.context.client.user!.username} (${this.context.client.user!.id})`,
                             icon_url: this.context.client.user!.displayAvatarURL(),
@@ -53,7 +54,7 @@ export default abstract class HelpCommand extends Command {
                 ],
             });
 
-        cmdDetails.setAuthor({
+        cmdDetails.setColor(0xd1daf9).setAuthor({
             name: this.context.client.user!.username,
             iconURL: this.context.client.user!.displayAvatarURL(),
         });

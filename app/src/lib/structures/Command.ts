@@ -1,6 +1,7 @@
 import { type Guild, type Message, type PermissionsBitField, type User, type Channel } from "discord.js";
 import { Client } from "./Client.js";
 import { client } from "../../index.js";
+import { PrismaClient } from "@prisma/client";
 
 interface CommandOptions {
     name: string;
@@ -19,6 +20,7 @@ interface CommandOptions {
 }
 
 export interface CommandContext {
+    db: PrismaClient;
     client: Client;
     directory: string;
 

@@ -38,12 +38,8 @@ export default abstract class MessageCommandsListener extends Listener {
 
             return cmd.test(cmd, cmd.context, message, args);
         } catch (error: any) {
-            if (typeof error !== "string") {
-                console.log(error);
-                return message.reply("An error occured!");
-            }
-
-            return message.reply(`Error: ${error}`);
+            console.log(error);
+            return message.reply("An error occured!");
         }
     };
 }
