@@ -1,0 +1,30 @@
+{
+	"name": "storm-levels",
+	"version": "1.0.0",
+	"description": "A simple level bot.",
+	"main": "dist/index.js",
+	"scripts": {
+		"build": "tsc",
+		"start": "tsc && node ./dist/index.js"
+	},
+	"keywords": [
+		"typescript",
+		"level-bot",
+		"discord.js"
+	],
+	"license": "MIT",
+	"dependencies": {
+		"@prisma/client": "5.2.0",
+		"@sern/handler": "^3.0.3",
+		"canvacord": "^5.4.10",
+		"discord.js": "latest",
+		"dotenv": "^16.3.1"
+	},
+	"devDependencies": {
+		"@types/node": "^17.0.25",
+		"prisma": "5.2.0",
+		"typescript": "5.0"
+	},
+	"type": "module",
+	"packageManager": "yarn@4.1.1"
+}
