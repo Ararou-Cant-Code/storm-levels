@@ -43,12 +43,6 @@ export default abstract class HelpCommand extends Command {
                 embeds: [
                     {
                         color: 0xd1daf9,
-                        author: {
-                            name: `${this.context.client.user!.username} (${this.context.client.user!.id})`,
-                            icon_url: this.context.client.user!.displayAvatarURL(),
-                        },
-                        title: "📝 Commands",
-                        description: `Viewing **${commands.length}** commands.`,
                         fields: embedFields,
                     },
                 ],
@@ -59,7 +53,7 @@ export default abstract class HelpCommand extends Command {
             iconURL: this.context.client.user!.displayAvatarURL(),
         });
         cmdDetails.setTitle(
-            `📝 ${this.context.client.defaultPrefix}${command.name}${
+            `${this.context.client.defaultPrefix}${command.name}${
                 command.options.detailedDescription?.usage ? ` ${command.options.detailedDescription.usage}` : ""
             }`
         );

@@ -19,6 +19,9 @@ export class Client extends DiscordClient {
     public guildConfigs: Map<string, GuildConfigOptions> = new Map().set(
         "1220036404969472010", // The Storm.
         {
+            channels: {
+                commands: "1220049907411456102",
+            },
             roles: {
                 allStaff: "1220038799590162472",
             },
