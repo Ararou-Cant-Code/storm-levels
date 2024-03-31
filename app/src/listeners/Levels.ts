@@ -69,7 +69,7 @@ export default abstract class LevelsListener extends Listener {
 
             setTimeout(() => {
                 this.client.levelCooldowns.delete(message.author.id);
-            }, 1000);
+            }, 60000);
         }
     };
 }
