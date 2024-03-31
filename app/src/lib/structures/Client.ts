@@ -31,7 +31,11 @@ export class Client extends DiscordClient {
                 const command: Command = new commandImported(this);
                 command.name = command.name.toLowerCase();
 
-                command.directory = dir;
+                command.context = {
+                    client: this,
+                    directory: dir,
+                };
+
                 this.commands.set(command.name.toLowerCase(), command);
 
                 if (command.aliases)

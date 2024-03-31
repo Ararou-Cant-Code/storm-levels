@@ -28,6 +28,13 @@ export default abstract class MessageCommandsListener extends Listener {
         if (!cmd) return;
 
         try {
+            cmd.context.executed = {
+                message,
+                user: message.author,
+                channel: message.channel!,
+                guild: message.guild!,
+            };
+
             return await cmd.run(message, args);
         } catch (error: any) {
             if (typeof error !== "string") {

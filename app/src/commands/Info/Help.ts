@@ -1,10 +1,10 @@
 import { APIEmbedField, EmbedBuilder, Message } from "discord.js";
 import { Client } from "../../lib/structures/Client.js";
-import Command from "../../lib/structures/Command.js";
+import Command, { CommandContext } from "../../lib/structures/Command.js";
 
 export default abstract class HelpCommand extends Command {
-    public constructor(client: Client) {
-        super(client, {
+    public constructor(context: CommandContext) {
+        super(context, {
             name: "Help",
             description: "View commands on the bot.",
             detailedDescription: {
@@ -17,19 +17,19 @@ export default abstract class HelpCommand extends Command {
         const cmdDetails = new EmbedBuilder();
         const embedFields: APIEmbedField[] = [];
         const categories: string[] = [];
-        const commands = this.client.commands.map((c) => c);
+        const commands = this.context.client.commands.map((c) => c);
 
         for (var c = 0; c < commands.length; c++) {
-            if (categories.includes(commands[c].directory!)) continue;
+            if (categories.includes(commands[c].context.directory!)) continue;
 
-            categories.push(commands[c].directory!);
+            categories.push(commands[c].context.directory!);
         }
 
         categories.map((category) =>
             embedFields.push({
                 name: category,
                 value: commands
-                    .filter((cmd) => cmd.directory === category)
+                    .filter((cmd) => cmd.context.directory === category)
                     .map((cmd) => `\`${cmd.name}\``)
                     .join(", "),
                 inline: false,
@@ -37,14 +37,15 @@ export default abstract class HelpCommand extends Command {
         );
 
         const command =
-            this.client.commands.get(args[0]) || this.client.commands.get(this.client.aliases.get(args[0])!);
+            this.context.client.commands.get(args[0]) ||
+            this.context.client.commands.get(this.context.client.aliases.get(args[0])!);
         if (!command)
             return message.reply({
                 embeds: [
                     {
                         author: {
-                            name: `${this.client.user!.username} (${this.client.user!.id})`,
-                            icon_url: this.client.user!.displayAvatarURL(),
+                            name: `${this.context.client.user!.username} (${this.context.client.user!.id})`,
+                            icon_url: this.context.client.user!.displayAvatarURL(),
                         },
                         title: "📝 Commands",
                         description: `Viewing **${commands.length}** commands.`,
@@ -54,11 +55,11 @@ export default abstract class HelpCommand extends Command {
             });
 
         cmdDetails.setAuthor({
-            name: this.client.user!.username,
-            iconURL: this.client.user!.displayAvatarURL(),
+            name: this.context.client.user!.username,
+            iconURL: this.context.client.user!.displayAvatarURL(),
         });
         cmdDetails.setTitle(
-            `📝 ${this.client.defaultPrefix}${command.name}${
+            `📝 ${this.context.client.defaultPrefix}${command.name}${
                 command.options.detailedDescription?.usage ? ` ${command.options.detailedDescription.usage}` : ""
             }`
         );

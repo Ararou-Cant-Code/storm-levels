@@ -1,5 +1,6 @@
-import { PermissionsBitField } from "discord.js";
+import { TextChannel, type Guild, type Message, type PermissionsBitField, type User, Channel } from "discord.js";
 import { Client } from "./Client.js";
+import { client } from "../../index.js";
 
 interface CommandOptions {
     name: string;
@@ -9,8 +10,21 @@ interface CommandOptions {
     permissions?: { node?: string; user?: PermissionsBitField[]; client?: PermissionsBitField[] };
 }
 
+export interface CommandContext {
+    client: Client;
+    directory: string;
+
+    executed?: {
+        message: Message,
+        user: User;
+        guild: Guild;
+        channel: Channel;
+    };
+}
+
 export default abstract class Command {
-    public client: Client;
+    public context: CommandContext;
+
     public directory?: string;
 
     public options: CommandOptions;
@@ -20,8 +34,8 @@ export default abstract class Command {
 
     public abstract run: (...args: any[]) => unknown;
 
-    public constructor(client: Client, options: CommandOptions) {
-        this.client = client;
+    public constructor(context: CommandContext, options: CommandOptions) {
+        this.context = context ?? { client };
         this.options = options;
         this.name = options.name;
         this.aliases = options.aliases;

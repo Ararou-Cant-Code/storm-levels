@@ -1,10 +1,9 @@
 import { Message } from "discord.js";
-import { Client } from "../../lib/structures/Client.js";
-import Command from "../../lib/structures/Command.js";
+import Command, { CommandContext } from "../../lib/structures/Command.js";
 
 export default abstract class PingCommand extends Command {
-    public constructor(client: Client) {
-        super(client, {
+    public constructor(context: CommandContext) {
+        super(context, {
             name: "Ping",
         });
     }
@@ -14,7 +13,7 @@ export default abstract class PingCommand extends Command {
         return msg.edit(
             `Pong! (Roundtrip took: ${Math.round(
                 (msg.editedTimestamp || msg.createdTimestamp) - (message.editedTimestamp || message.createdTimestamp)
-            )}ms. Heartbeat: ${message.guild!.shard.ping}ms.)`
+            )}ms. Heartbeat: ${this.context.client.ws.ping}ms.)`
         );
     };
 }
