@@ -6,6 +6,11 @@ export default abstract class EvalCommand extends Command {
     public constructor(context: CommandContext) {
         super(context, {
             name: "Eval",
+            permissions: { dev: true },
+            description: "Eval a line of code.",
+            detailedDescription: {
+                usage: "<code: String>",
+            },
         });
     }
 

@@ -19,6 +19,9 @@ export interface ClientOptions extends DiscordClientOptions {
 }
 
 export interface GuildConfigOptions {
+    permissions: {
+        staff: { roles: string[]; nodes: string[]; users: string[]; };
+    };
     channels: { commands: string; prohibited: string[] };
     roles: { level_roles: LevelRoles; prohibited: string[]; allStaff: string };
 }

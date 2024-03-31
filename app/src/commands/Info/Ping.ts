@@ -5,6 +5,7 @@ export default abstract class PingCommand extends Command {
     public constructor(context: CommandContext) {
         super(context, {
             name: "Ping",
+            description: "Get bot latency.",
         });
     }
 

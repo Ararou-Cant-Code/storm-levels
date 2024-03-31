@@ -5,7 +5,9 @@ import Listener from "./Listener.js";
 import Command from "./Command.js";
 
 export class Client extends DiscordClient {
+    public developerId?: string = "840213882147831879";
     public defaultPrefix?: string = "!";
+
     public levelCooldowns = new Set();
 
     public commands: Collection<String, Command> = new Collection();
@@ -13,7 +15,17 @@ export class Client extends DiscordClient {
 
     public guildConfigs: Map<string, GuildConfigOptions> = new Map().set(
         "1220036404969472010", // The Storm.
-        {}
+        {
+            roles: {
+                allStaff: "1220038799590162472",
+            },
+            permissions: {
+                staff: {
+                    roles: ["1220038799590162472"],
+                    nodes: ["ping.command"],
+                },
+            },
+        }
     );
 
     public constructor(options: DiscordClientOptions & ClientOptions) {

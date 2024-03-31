@@ -1,5 +1,4 @@
 import { APIEmbedField, EmbedBuilder, Message } from "discord.js";
-import { Client } from "../../lib/structures/Client.js";
 import Command, { CommandContext } from "../../lib/structures/Command.js";
 
 export default abstract class HelpCommand extends Command {

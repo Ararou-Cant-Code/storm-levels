@@ -31,11 +31,12 @@ export default abstract class MessageCommandsListener extends Listener {
             cmd.context.executed = {
                 message,
                 user: message.author,
+                userRoles: message.member!.roles.cache.map((r) => r.id),
                 channel: message.channel!,
                 guild: message.guild!,
             };
 
-            return await cmd.run(message, args);
+            return cmd.test(cmd, cmd.context, message, args);
         } catch (error: any) {
             if (typeof error !== "string") {
                 console.log(error);
