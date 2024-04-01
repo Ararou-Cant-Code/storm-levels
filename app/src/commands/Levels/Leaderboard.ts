@@ -7,6 +7,9 @@ export default abstract class LeaderboardCommand extends Command {
         super(context, {
             name: "Leaderboard",
             aliases: ["lb", "levels", "ranks", "lvls"],
+            permissions: {
+                commands_channel: true,
+            },
             description: "View all member levels in the guild.",
             detailedDescription: {
                 usage: "[page: number]",

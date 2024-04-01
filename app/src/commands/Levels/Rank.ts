@@ -8,6 +8,9 @@ export default abstract class RankCommand extends Command {
         super(context, {
             name: "Rank",
             aliases: ["level", "lvl", "rnk"],
+            permissions: {
+                commands_channel: true
+            },
             description: "View yours or another members rank.",
             detailedDescription: {
                 usage: "[member: GuildMember]",

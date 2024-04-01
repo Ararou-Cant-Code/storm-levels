@@ -5,6 +5,9 @@ export default abstract class HelpCommand extends Command {
     public constructor(context: CommandContext) {
         super(context, {
             name: "Help",
+            permissions: {
+                commands_channel: true,
+            },
             description: "View commands on the bot.",
             detailedDescription: {
                 usage: "(Views all commands) | <commandName: string> (Views information on a command)",

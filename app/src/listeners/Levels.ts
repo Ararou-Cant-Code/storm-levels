@@ -1,7 +1,7 @@
 import { Events, Message } from "discord.js";
 import { Client } from "../lib/structures/Client.js";
 import Listener from "../lib/structures/Listener.js";
-import { calcXp, getXp } from "../lib/utils/functions.js";
+import { calcXp, getXp, handleLevelRoles } from "../lib/utils/functions.js";
 
 const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
@@ -56,7 +56,7 @@ export default abstract class LevelsListener extends Listener {
 
                 await message.channel.send(`${message.author} has reached level ${level.level}!`);
                 await this.client.db.levels.update({
-                    where: {
+                    where: {            
                         guildId: message.guild!.id,
                         memberId: message.author.id,
                     },
@@ -65,6 +65,8 @@ export default abstract class LevelsListener extends Listener {
                         level: level.level,
                     },
                 });
+
+                await handleLevelRoles(message, this.client, level.level);
             }
 
             setTimeout(() => {

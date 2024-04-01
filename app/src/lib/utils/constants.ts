@@ -27,6 +27,13 @@ export interface GuildConfigOptions {
 }
 
 interface LevelRoles {
+    level_five: string;
     level_ten: string;
     level_twenty: string;
+    level_twentyfive: string;
+    level_thirty: string;
+    level_fortyfive: string;
+    level_fifty: string;
+    level_sixty: string;
+    level_sixtyfive: string;
 }

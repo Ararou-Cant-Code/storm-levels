@@ -11,6 +11,8 @@ export class Client extends DiscordClient {
     public developerId?: string = "840213882147831879";
     public defaultPrefix?: string = "!";
 
+    public commandResponseCooldowns = new Set();
+    public commandCooldowns = new Set();
     public levelCooldowns = new Set();
 
     public commands: Collection<String, Command> = new Collection();
@@ -24,6 +26,17 @@ export class Client extends DiscordClient {
             },
             roles: {
                 allStaff: "1220038799590162472",
+                level_roles: {
+                    level_five: "1223653433798688818",
+                    level_ten: "1223653545920827432",
+                    level_twenty: "1223653706604744765",
+                    level_twentyfive: "1223653872472690730",
+                    level_thirty: "1223653958770360420",
+                    level_fortyfive: "1223654085849256068",
+                    level_fifty: "1223654238240899132",
+                    level_sixty: "1223654397850943640",
+                    level_sixtyfive: "1223654499260960878",
+                },
             },
             permissions: {
                 staff: {

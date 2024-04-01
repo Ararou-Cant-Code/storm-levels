@@ -2,6 +2,7 @@ import { type Guild, type Message, type PermissionsBitField, type User, type Cha
 import { Client } from "./Client.js";
 import { client } from "../../index.js";
 import { PrismaClient } from "@prisma/client";
+import { handleMessage } from "../utils/functions.js";
 
 interface CommandOptions {
     name: string;
@@ -44,23 +45,39 @@ export default abstract class Command {
     public aliases?: string[];
 
     public test = async (command: Command, context: CommandContext, message: Message, args?: string[]) => {
-        const guildConfig = context.client.guildConfigs.get(context.executed!.guild.id);
+        try {
+            const guildConfig = context.client.guildConfigs.get(context.executed!.guild.id);
 
-        if (
-            command.options.permissions &&
-            command.options.permissions.dev &&
-            context.executed!.user.id !== context.client.developerId
-        )
-            return "FAILED";
+            if (
+                command.options.permissions &&
+                command.options.permissions.dev &&
+                context.executed!.user.id !== context.client.developerId
+            )
+                return "FAILED";
 
-        if (
-            command.options.permissions &&
-            command.options.permissions.staff &&
-            !context.executed!.userRoles!.includes(guildConfig!.roles.allStaff)
-        )
-            return "FAILED";
+            if (
+                command.options.permissions &&
+                command.options.permissions.staff &&
+                !context.executed!.userRoles!.includes(guildConfig!.roles.allStaff)
+            )
+                return "FAILED";
 
-        return this.run(message, args);
+            if (
+                command.options.permissions &&
+                command.options.permissions.commands_channel &&
+                context.executed!.channel.id !== guildConfig!.channels.commands &&
+                !context.executed!.userRoles!.includes(guildConfig!.roles.allStaff)
+            )
+                return handleMessage(
+                    message,
+                    context,
+                    `This command belongs in <#${guildConfig!.channels.commands}>, not here.`
+                );
+
+            return this.run(message, args);
+        } catch (error) {
+            throw error;
+        }
     };
 
     public abstract run: (...args: any[]) => unknown;
