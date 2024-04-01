@@ -20,20 +20,20 @@ export interface ClientOptions extends DiscordClientOptions {
 
 export interface GuildConfigOptions {
     permissions: {
-        staff: { roles: string[]; nodes: string[]; users: string[]; };
+        staff: { roles: string[]; nodes: string[]; users: string[] };
     };
     channels: { commands: string; prohibited: string[] };
     roles: { level_roles: LevelRoles; prohibited: string[]; allStaff: string };
 }
 
 interface LevelRoles {
-    level_five: string;
-    level_ten: string;
-    level_twenty: string;
-    level_twentyfive: string;
-    level_thirty: string;
-    level_fortyfive: string;
-    level_fifty: string;
-    level_sixty: string;
-    level_sixtyfive: string;
+    [5]: string;
+    [10]: string;
+    [20]: string;
+    [25]: string;
+    [30]: string;
+    [45]: string;
+    [50]: string;
+    [60]: string;
+    [65]: string;
 }

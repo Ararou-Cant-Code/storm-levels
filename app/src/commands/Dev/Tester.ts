@@ -7,13 +7,13 @@ export default abstract class TesterCommand extends Command {
         super(context, {
             name: "Tester",
             permissions: {
-                commands_channel: true,
+                dev: true,
             },
             description: "funny testing stuff",
         });
     }
 
     public override run = async (message: Message) => {
-        return message.reply("no");
+        await handleLevelRoles(message, this.context.client, 7);
     };
 }

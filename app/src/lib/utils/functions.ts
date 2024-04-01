@@ -2,8 +2,10 @@ import { EmbedBuilder, Message, type EmbedField, type Guild } from "discord.js";
 import { type CommandContext } from "../structures/Command.js";
 import { Client } from "../structures/Client.js";
 
+const levelThresholds = [5, 10, 20, 25, 30, 45, 50, 60, 65];
+
 export const handleLevelRoles = async (message: Message, client: Client, newLevel: number) => {
-    const levelRoles = client.guildConfigs.get(message.guild!.id)!.roles.level_roles;
+    const levelRoles = client.guildConfigs.get(message.guild!.id)!.roles.level_roles as keyof object;
 
     const rolesBesideLevelRoles = message.member!.roles.cache.filter((r) => !r.name.startsWith("Level"));
     const levelRolesOnly = message.member!.roles.cache.filter((r) => r.name.startsWith("Level")).map((role) => role);
@@ -13,15 +15,20 @@ export const handleLevelRoles = async (message: Message, client: Client, newLeve
     }
 
     try {
-        if (newLevel >= 5) await message.member!.roles.add(levelRoles.level_five);
-        else if (newLevel >= 10) await message.member!.roles.add(levelRoles.level_ten);
-        else if (newLevel >= 20) await message.member!.roles.add(levelRoles.level_twenty);
-        else if (newLevel >= 25) await message.member!.roles.add(levelRoles.level_twentyfive);
-        else if (newLevel >= 30) await message.member!.roles.add(levelRoles.level_thirty);
-        else if (newLevel >= 45) await message.member!.roles.add(levelRoles.level_fortyfive);
-        else if (newLevel >= 50) await message.member!.roles.add(levelRoles.level_fifty);
-        else if (newLevel >= 60) await message.member!.roles.add(levelRoles.level_sixty);
-        else if (newLevel >= 65) await message.member!.roles.add(levelRoles.level_sixtyfive);
+        for (var i = 0; i < levelThresholds.length; i++) {
+            // Add highest role available
+            if (newLevel >= levelThresholds[i]) {
+                const role = await message.guild!.roles.fetch(levelRoles[levelThresholds[i]]);
+                await message.member!.roles.add(role!);
+
+                // Remove lower roles
+                for (var j = i - 1; j >= 0; j--) {
+                    await message.member!.roles.remove(levelRoles[levelThresholds[j]]);
+                }
+            } else {
+                break;
+            }
+        }
     } catch (error) {
         console.log(`Error when setting level roles: ${error}`);
     }
