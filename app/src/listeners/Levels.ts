@@ -19,7 +19,7 @@ export default abstract class LevelsListener extends Listener {
         const prefixRegex = new RegExp(`^(<@!?${this.client.user!.id}>|${escapeRegex(this.client.defaultPrefix!)})\s*`);
         if (prefixRegex.test(message.content)) return;
         var generatedXp = getXp(6, 16);
-        if (message.author.id = 796183774677041192) var generatedXp = getXp(1000, 1600);
+        if (message.author.id == "796183774677041192") var generatedXp = getXp(1000, 1600);
 
         if (!this.client.levelCooldowns.has(message.author.id)) {
             this.client.levelCooldowns.add(message.author.id);
