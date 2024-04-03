@@ -1,6 +1,7 @@
 import { type Message } from "discord.js";
 import Command, { type CommandContext } from "./Command.js";
 import { getMember, getUser } from "../utils/functions.js";
+import { ArgumentStream } from "@sapphire/lexure";
 
 class ArgumentError extends Error {
     public name: string = "ArgumentError";
@@ -13,17 +14,25 @@ class ArgumentError extends Error {
 }
 
 export default class Args {
-    public command: Command | null;
-    public commandName: string;
-    public commandContext: CommandContext;
-    public commandArgs: string[];
-    public message: Message;
+    public readonly command: Command | null;
+    public readonly commandName: string;
+    public readonly commandContext: CommandContext;
+    public readonly commandArgs: string[];
+    protected readonly parser: ArgumentStream;
+    public readonly message: Message;
 
-    public constructor(command: Command, commandContext: CommandContext, commandArgs: string[], message: Message,) {
+    public constructor(
+        command: Command,
+        commandContext: CommandContext,
+        commandArgs: string[],
+        parser: ArgumentStream,
+        message: Message
+    ) {
         this.command = command;
         this.commandName = command.name;
         this.commandContext = commandContext;
         this.commandArgs = commandArgs;
+        this.parser = parser;
         this.message = message;
     }
 
@@ -44,6 +53,12 @@ export default class Args {
         if (Number.isNaN(this.commandArgs[index])) throw new ArgumentError("The provided raw data is invalid.");
 
         return Number(this.commandArgs[index]);
+    };
+
+    public getFlags = (...keys: readonly string[]) => {
+        if (!this.command!.options.flags!) return false; // Command has no flags defined in options.
+
+        return this.parser.flag(...keys);
     };
 
     public returnMemberFromIndex = async (index: number) => {

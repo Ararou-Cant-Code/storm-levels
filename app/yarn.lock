@@ -225,6 +225,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sapphire/lexure@npm:^1.1.7":
+  version: 1.1.7
+  resolution: "@sapphire/lexure@npm:1.1.7"
+  dependencies:
+    "@sapphire/result": "npm:^2.6.6"
+  checksum: 10c0/0479858952e01f1bc682405e26cce1c74b569c755dd97e1988a5b29c07c29d3694a71f953c6ec9e2075556114233908b20436e378c1f59998ffa1b41cb82570b
+  languageName: node
+  linkType: hard
+
+"@sapphire/result@npm:^2.6.6":
+  version: 2.6.6
+  resolution: "@sapphire/result@npm:2.6.6"
+  checksum: 10c0/022d5f4d6b084f6ef7384453773d74116c00bbdbc7eeeed85b4b205a765ac158c2fad7fc8ecaabc19976cc40f01a54de1822f0b3f486ad27e134177ed8eb878a
+  languageName: node
+  linkType: hard
+
 "@sapphire/shapeshift@npm:^3.9.3":
   version: 3.9.7
   resolution: "@sapphire/shapeshift@npm:3.9.7"
@@ -467,6 +483,7 @@ __metadata:
   resolution: "storm-levels@workspace:."
   dependencies:
     "@prisma/client": "npm:5.2.0"
+    "@sapphire/lexure": "npm:^1.1.7"
     "@sern/handler": "npm:^3.0.3"
     "@types/node": "npm:^17.0.25"
     canvacord: "npm:^5.4.10"

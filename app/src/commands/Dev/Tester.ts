@@ -1,11 +1,12 @@
 import { Message } from "discord.js";
 import Command, { CommandContext } from "../../lib/structures/Command.js";
-import { handleLevelRoles } from "../../lib/utils/functions.js";
+import Args from "../../lib/structures/Args.js";
 
 export default abstract class TesterCommand extends Command {
     public constructor(context: CommandContext) {
         super(context, {
             name: "Tester",
+            flags: ["test"],
             permissions: {
                 dev: true,
             },
@@ -13,7 +14,9 @@ export default abstract class TesterCommand extends Command {
         });
     }
 
-    public override run = async (message: Message) => {
-        await handleLevelRoles(message, this.context.client, 7);
+    public override run = async (message: Message, args: Args) => {
+        const flag = args.getFlags("hi", "h", "test", "t");
+
+        return message.channel.send(`Flag: ${flag ? "Yes" : "No"}`);
     };
 }

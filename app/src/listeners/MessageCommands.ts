@@ -2,7 +2,9 @@ import { Events, Message } from "discord.js";
 import { Client } from "../lib/structures/Client.js";
 import Listener from "../lib/structures/Listener.js";
 import Args from "../lib/structures/Args.js";
+import { Parser, PrefixedStrategy, Lexer, ArgumentStream } from "@sapphire/lexure";
 
+const parser = new Parser(new PrefixedStrategy(["--", "-", "—"], ["=", ":"]));
 const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 export default abstract class MessageCommandsListener extends Listener {
@@ -37,7 +39,9 @@ export default abstract class MessageCommandsListener extends Listener {
                 guild: message.guild!,
             };
 
-            const args = new Args(cmd, cmd.context, rawArgs, message);
+            // Handle ArgumentStream, args and then test and run the command.
+            const stream = new ArgumentStream(parser.run(cmd.lexer.run(message.content)));
+            const args = new Args(cmd, cmd.context, rawArgs, stream, message);
             await cmd.test(cmd, cmd.context, message, args);
         } catch (e) {
             // No need to do any actual reporting on this one, only used for permission failure.

@@ -4,10 +4,12 @@ import { client } from "../../index.js";
 import { PrismaClient } from "@prisma/client";
 import { handleMessage } from "../utils/functions.js";
 import Args from "./Args.js";
+import { Lexer } from "@sapphire/lexure";
 
 interface CommandOptions {
     name: string;
     aliases?: string[];
+    flags?: string[];
     description?: string;
     detailedDescription?: { usage?: string; examples?: string[] };
     permissions?: {
@@ -36,6 +38,7 @@ export interface CommandContext {
 }
 
 export default abstract class Command {
+    public lexer: Lexer;
     public context: CommandContext;
 
     public directory?: string;
@@ -84,5 +87,14 @@ export default abstract class Command {
         this.options = options;
         this.name = options.name;
         this.aliases = options.aliases;
+
+        this.lexer = new Lexer({
+            quotes: [
+                ['"', '"'],
+                ["“", "”"],
+                ["「", "」"],
+                ["«", "»"],
+            ],
+        });
     }
 }
