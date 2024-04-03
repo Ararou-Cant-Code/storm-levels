@@ -3,6 +3,7 @@ import Command, { CommandContext } from "../../lib/structures/Command.js";
 import canva from "canvacord";
 import { calcXp, getMember } from "../../lib/utils/functions.js";
 import Args from "../../lib/structures/Args.js";
+import { GenericFailure } from "../../lib/utils/errors.js";
 
 export default abstract class RankCommand extends Command {
     public constructor(context: CommandContext) {
@@ -21,7 +22,7 @@ export default abstract class RankCommand extends Command {
 
     public override run = async (message: Message, args: Args) => {
         const member = await args.returnMemberFromIndex(0).catch(() => message.member!);
-        if (member.user.bot) return message.reply("That user is a bot.");
+        if (member.user.bot) throw new GenericFailure("That user is a bot.");
 
         const levels = await this.context.client.db.levels.findFirst({
             where: {
@@ -29,7 +30,7 @@ export default abstract class RankCommand extends Command {
                 memberId: member.id,
             },
         });
-        if (!levels) return message.reply(`${member.id === message.author.id ? "You" : "They"} have no XP!`);
+        if (!levels) throw new GenericFailure("There is no levels for this server.");
 
         if (!levels.level && !levels.xp)
             return message.reply(`${member.id === message.author.id ? "You" : "They"} have no XP!`);

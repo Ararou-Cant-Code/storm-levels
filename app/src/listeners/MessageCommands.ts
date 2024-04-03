@@ -37,17 +37,20 @@ export default abstract class MessageCommandsListener extends Listener {
                 guild: message.guild!,
             };
 
-            const args = new Args(cmd, cmd.context, message, rawArgs);
+            const args = new Args(cmd, cmd.context, rawArgs, message);
             await cmd.test(cmd, cmd.context, message, args);
         } catch (e) {
-            if ((e as { name: string }).name.includes("ArgumentFailed"))
-                return message.reply(
-                    `You didn't provide any correct arguments...\n> **${(e as { message: string }).message}**`
-                );
+            // No need to do any actual reporting on this one, only used for permission failure.
+            if ((e as { name: string }).name.includes("CommandRunFailure")) return;
 
-            if (typeof e !== "string") return console.log(`whoops error: ${e}`);
+            if (
+                (e as { name: string }).name.includes("ArgumentFailed") ||
+                (e as { name: string }).name.includes("GenericFailure") ||
+                (e as { name: string }).name.includes("PublicFailure")
+            )
+                return message.reply(`> ${(e as { message: string }).message}`);
 
-            return message.reply(`An error occured! ${e}`);
+            return console.log(`whoops error: ${e}`);
         }
     };
 }
