@@ -2,7 +2,7 @@ import { Events, Message } from "discord.js";
 import { Client } from "../lib/structures/Client.js";
 import Listener from "../lib/structures/Listener.js";
 import Args from "../lib/structures/Args.js";
-import { Parser, PrefixedStrategy, Lexer, ArgumentStream } from "@sapphire/lexure";
+import { Parser, PrefixedStrategy, ArgumentStream } from "@sapphire/lexure";
 
 const parser = new Parser(new PrefixedStrategy(["--", "-", "—"], ["=", ":"]));
 const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
