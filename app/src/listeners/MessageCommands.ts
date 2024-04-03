@@ -1,6 +1,7 @@
 import { Events, Message } from "discord.js";
 import { Client } from "../lib/structures/Client.js";
 import Listener from "../lib/structures/Listener.js";
+import Args from "../lib/structures/Args.js";
 
 const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
@@ -20,9 +21,9 @@ export default abstract class MessageCommandsListener extends Listener {
 
         const [matchedPrefix] = message.content.match(prefixRegex)!;
 
-        const args = message.content.slice(matchedPrefix!.length).trim().split(/ +/g);
+        const rawArgs = message.content.slice(matchedPrefix!.length).trim().split(/ +/g);
 
-        const command = args.shift()!.toLowerCase();
+        const command = rawArgs.shift()!.toLowerCase();
 
         const cmd = this.client.commands.get(command) || this.client.commands.get(this.client.aliases.get(command)!);
         if (!cmd) return;
@@ -36,10 +37,17 @@ export default abstract class MessageCommandsListener extends Listener {
                 guild: message.guild!,
             };
 
-            return cmd.test(cmd, cmd.context, message, args);
-        } catch (error: any) {
-            console.log(error);
-            return message.reply("An error occured!");
+            const args = new Args(cmd, cmd.context, message, rawArgs);
+            await cmd.test(cmd, cmd.context, message, args);
+        } catch (e) {
+            if ((e as { name: string }).name.includes("ArgumentFailed"))
+                return message.reply(
+                    `You didn't provide any correct arguments...\n> **${(e as { message: string }).message}**`
+                );
+
+            if (typeof e !== "string") return console.log(`whoops error: ${e}`);
+
+            return message.reply(`An error occured! ${e}`);
         }
     };
 }

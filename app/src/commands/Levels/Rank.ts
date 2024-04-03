@@ -2,6 +2,7 @@ import { AttachmentBuilder, Message } from "discord.js";
 import Command, { CommandContext } from "../../lib/structures/Command.js";
 import canva from "canvacord";
 import { calcXp, getMember } from "../../lib/utils/functions.js";
+import Args from "../../lib/structures/Args.js";
 
 export default abstract class RankCommand extends Command {
     public constructor(context: CommandContext) {
@@ -9,7 +10,7 @@ export default abstract class RankCommand extends Command {
             name: "Rank",
             aliases: ["level", "lvl", "rnk"],
             permissions: {
-                commands_channel: true
+                commands_channel: true,
             },
             description: "View yours or another members rank.",
             detailedDescription: {
@@ -18,12 +19,8 @@ export default abstract class RankCommand extends Command {
         });
     }
 
-    public override run = async (message: Message, args: string[]) => {
-        const memberArgument = args[0] ?? message.author.id;
-
-        const member = await getMember(message.guild!, memberArgument);
-        if (!member) return message.reply("That member is not in this guild, or you provided an invalid member.");
-
+    public override run = async (message: Message, args: Args) => {
+        const member = await args.returnMemberFromIndex(0).catch(() => message.member!);
         if (member.user.bot) return message.reply("That user is a bot.");
 
         const levels = await this.context.client.db.levels.findFirst({

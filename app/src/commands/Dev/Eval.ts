@@ -1,6 +1,8 @@
 import { Message, codeBlock } from "discord.js";
 import Command, { CommandContext } from "../../lib/structures/Command.js";
 import { inspect } from "node:util";
+import Args from "../../lib/structures/Args.js";
+import { ArgumentFailed } from "../../lib/utils/errors.js";
 
 export default abstract class EvalCommand extends Command {
     public constructor(context: CommandContext) {
@@ -14,11 +16,11 @@ export default abstract class EvalCommand extends Command {
         });
     }
 
-    public override run = async (message: Message, args: string[]) => {
+    public override run = async (message: Message, args: Args) => {
         if (message.author.id !== "840213882147831879") throw "Bad.";
 
-        const code = args.join(" ");
-        if (!code) throw "You must provide some code.";
+        const code = await args.getAll().catch(() => null);
+        if (!code) throw new ArgumentFailed("code");
 
         try {
             const evaluated = await eval(code);

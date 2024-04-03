@@ -1,5 +1,6 @@
 import { APIEmbedField, EmbedBuilder, Message } from "discord.js";
 import Command, { CommandContext } from "../../lib/structures/Command.js";
+import Args from "../../lib/structures/Args.js";
 
 export default abstract class HelpCommand extends Command {
     public constructor(context: CommandContext) {
@@ -15,7 +16,7 @@ export default abstract class HelpCommand extends Command {
         });
     }
 
-    public override run = async (message: Message, args: string[]) => {
+    public override run = async (message: Message, args: Args) => {
         const cmdDetails = new EmbedBuilder();
         const embedFields: APIEmbedField[] = [];
         const categories: string[] = [];
@@ -38,9 +39,20 @@ export default abstract class HelpCommand extends Command {
             })
         );
 
+        const rawCommandArg = await args.getIndex(0).catch(() => null);
+        if (!rawCommandArg)
+            return message.reply({
+                embeds: [
+                    {
+                        color: 0xd1daf9,
+                        fields: embedFields,
+                    },
+                ],
+            });
+
         const command =
-            this.context.client.commands.get(args[0]) ||
-            this.context.client.commands.get(this.context.client.aliases.get(args[0])!);
+            this.context.client.commands.get(rawCommandArg) ||
+            this.context.client.commands.get(this.context.client.aliases.get(rawCommandArg)!);
         if (!command)
             return message.reply({
                 embeds: [

@@ -68,6 +68,15 @@ export const getMember = async function (guild: Guild, mention: string) {
     return guild.members.fetch(mention).catch(() => undefined);
 };
 
+export const getUser = async function (client: Client, mention: string) {
+    if (!mention) return;
+    if (mention.startsWith("<@") && mention.endsWith(">")) {
+        mention = mention.slice(2, -1);
+        if (mention.startsWith("!")) mention = mention.slice(1);
+    }
+    return client.users.fetch(mention).catch(() => undefined);
+};
+
 export function setPages(embeds: EmbedField[]) {
     if (!embeds[0]) throw new Error("There are no embeds to paginate.");
 

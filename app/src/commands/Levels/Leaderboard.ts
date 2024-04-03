@@ -1,6 +1,7 @@
 import { EmbedField, Message } from "discord.js";
 import Command, { CommandContext } from "../../lib/structures/Command.js";
 import { formatPosition, setPages } from "../../lib/utils/functions.js";
+import Args from "../../lib/structures/Args.js";
 
 export default abstract class LeaderboardCommand extends Command {
     public constructor(context: CommandContext) {
@@ -17,7 +18,7 @@ export default abstract class LeaderboardCommand extends Command {
         });
     }
 
-    public override run = async (message: Message, args: number[]) => {
+    public override run = async (message: Message, args: Args) => {
         const fields: EmbedField[] = [];
 
         const levels = await this.context.db.levels.findMany({
@@ -43,7 +44,7 @@ export default abstract class LeaderboardCommand extends Command {
             });
         }
 
-        let page: number = (args[1] || 1) - 1;
+        let page = (await args.getNumberIndex(1).catch(() => 1)) - 1;
 
         const pages = setPages(fields);
         if (!pages[page]) page = 0;
