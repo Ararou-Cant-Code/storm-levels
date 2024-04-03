@@ -1,7 +1,7 @@
 import { AttachmentBuilder, Message } from "discord.js";
 import Command, { CommandContext } from "../../lib/structures/Command.js";
-import canva, { BuiltInGraphemeProvider, Font, RankCardBuilder } from "canvacord";
-import { calcXp, getMember } from "../../lib/utils/functions.js";
+import { BuiltInGraphemeProvider, Font, RankCardBuilder } from "canvacord";
+import { calcXp } from "../../lib/utils/functions.js";
 import Args from "../../lib/structures/Args.js";
 import { GenericFailure } from "../../lib/utils/errors.js";
 
