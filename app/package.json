@@ -14,7 +14,7 @@
 	],
 	"license": "MIT",
 	"dependencies": {
-		"@prisma/client": "5.2.0",
+		"@prisma/client": "5.12.0",
 		"@ptkdev/logger": "^1.8.0",
 		"@sapphire/lexure": "^1.1.7",
 		"@sern/handler": "^3.0.3",
@@ -24,8 +24,8 @@
 	},
 	"devDependencies": {
 		"@types/node": "^17.0.25",
-		"prisma": "5.2.0",
-		"typescript": "5.0"
+		"prisma": "5.12.0",
+		"typescript": "5.4"
 	},
 	"type": "module",
 	"packageManager": "yarn@4.1.1"
