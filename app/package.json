@@ -1,32 +1,32 @@
 {
-	"name": "storm-levels",
-	"version": "1.0.0",
-	"description": "A simple level bot.",
-	"main": "dist/index.js",
-	"scripts": {
-		"build": "tsc",
-		"start": "tsc && node ./dist/index.js"
-	},
-	"keywords": [
-		"typescript",
-		"level-bot",
-		"discord.js"
-	],
-	"license": "MIT",
-	"dependencies": {
-		"@prisma/client": "5.12.0",
-		"@ptkdev/logger": "^1.8.0",
-		"@sapphire/lexure": "^1.1.7",
-		"@sern/handler": "^3.0.3",
-		"canvacord": "^6.0.0",
-		"discord.js": "latest",
-		"dotenv": "^16.3.1"
-	},
-	"devDependencies": {
-		"@types/node": "^20.0.0",
-		"prisma": "5.12.0",
-		"typescript": "5.4"
-	},
-	"type": "module",
-	"packageManager": "yarn@4.1.1"
+    "name": "storm-levels",
+    "version": "1.0.0",
+    "description": "A simple level bot.",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "tsc && node ./dist/index.js"
+    },
+    "keywords": [
+        "typescript",
+        "level-bot",
+        "discord.js"
+    ],
+    "license": "MIT",
+    "dependencies": {
+        "@prisma/client": "5.12.0",
+        "@ptkdev/logger": "^1.8.0",
+        "@sapphire/lexure": "^1.1.7",
+        "@sern/handler": "^3.0.3",
+        "canvacord": "^6.0.0",
+        "discord.js": "latest",
+        "dotenv": "^16.3.1"
+    },
+    "devDependencies": {
+        "@types/node": "^20.0.0",
+        "prisma": "5.12.0",
+        "typescript": "5.4"
+    },
+    "type": "module",
+    "packageManager": "yarn@4.1.1"
 }

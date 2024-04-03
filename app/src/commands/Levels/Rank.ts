@@ -1,6 +1,6 @@
 import { AttachmentBuilder, Message } from "discord.js";
 import Command, { CommandContext } from "../../lib/structures/Command.js";
-import canva from "canvacord";
+import canva, { BuiltInGraphemeProvider, Font, RankCardBuilder } from "canvacord";
 import { calcXp, getMember } from "../../lib/utils/functions.js";
 import Args from "../../lib/structures/Args.js";
 import { GenericFailure } from "../../lib/utils/errors.js";
@@ -21,8 +21,17 @@ export default abstract class RankCommand extends Command {
     }
 
     public override run = async (message: Message, args: Args) => {
+        Font.loadDefault();
+
         const member = await args.returnMemberFromIndex(0).catch(() => message.member!);
         if (member.user.bot) throw new GenericFailure("That user is a bot.");
+
+        const cardData = await this.context.client.db.cards.findFirst({
+            where: {
+                memberId: member.id,
+                guildId: message.guild!.id,
+            },
+        });
 
         const levels = await this.context.client.db.levels.findFirst({
             where: {
@@ -48,16 +57,29 @@ export default abstract class RankCommand extends Command {
         const memId = member!.user.id;
         const current = allLevels.findIndex((lvl) => lvl.memberId === memId) + 1;
 
-        const rank = await new canva.Rank()
+        const rank = await new RankCardBuilder()
+            .setStyles({
+                progressbar: {
+                    thumb: {
+                        style: {
+                            backgroundColor: "white",
+                        },
+                    },
+                },
+            })
+            .setDisplayName(member.nickname ?? member.user.displayName)
+            .setUsername("@" + member.user.username)
             .setAvatar(member!.user.displayAvatarURL())
+            .setOverlay(50)
+            .setBackground(
+                cardData ? cardData.background : "https://i.ibb.co/R9dNGQg/d0aed536fc9a360003d5ee26b9555d9f-1.png"
+            )
             .setLevel(levels.level)
             .setRank(current)
             .setCurrentXP(levels.xp)
-            .setProgressBar("#ff4444", "COLOR")
             .setRequiredXP(calcXp(levels.level))
-            .setUsername(member.user!.username)
-            .setDiscriminator(member!.user.discriminator)
-            .build();
+            .setGraphemeProvider(BuiltInGraphemeProvider.Blobmoji)
+            .build({ format: "png" });
 
         return message.reply({ files: [new AttachmentBuilder(rank)] });
     };

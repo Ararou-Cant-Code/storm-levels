@@ -14,6 +14,7 @@ interface CommandOptions {
     detailedDescription?: { usage?: string; examples?: string[] };
     permissions?: {
         commands_channel?: boolean;
+        trusted_member?: boolean;
         staff?: boolean;
         admin?: boolean;
         dev?: boolean;
@@ -62,6 +63,13 @@ export default abstract class Command {
             command.options.permissions &&
             command.options.permissions.staff &&
             !context.executed!.userRoles!.includes(guildConfig!.roles.allStaff)
+        )
+            return "FAILED";
+
+        if (
+            command.options.permissions &&
+            command.options.permissions.trusted_member &&
+            !context.executed!.userRoles!.includes(guildConfig!.roles.level_roles[20])
         )
             return "FAILED";
 

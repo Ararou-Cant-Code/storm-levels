@@ -13,3 +13,10 @@ model Levels {
     level    Int    @default(0)
     xp       Int    @default(0)
 }
+
+model Cards {
+    memberId   String @id
+    guildId    String
+    background String @default("https://i.ibb.co/R9dNGQg/d0aed536fc9a360003d5ee26b9555d9f-1.png")
+    progress   String @default("white")
+}
