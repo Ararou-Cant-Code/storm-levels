@@ -18,7 +18,7 @@
 		"@ptkdev/logger": "^1.8.0",
 		"@sapphire/lexure": "^1.1.7",
 		"@sern/handler": "^3.0.3",
-		"canvacord": "^5.4.10",
+		"canvacord": "^6.0.0",
 		"discord.js": "latest",
 		"dotenv": "^16.3.1"
 	},
