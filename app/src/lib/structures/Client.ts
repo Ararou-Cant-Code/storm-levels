@@ -1,11 +1,13 @@
 import { Collection, Client as DiscordClient, ClientOptions as DiscordClientOptions } from "discord.js";
 import { ClientOptions, GuildConfigOptions } from "../utils/constants.js";
 import { readdirSync } from "node:fs";
+import Logger from "@ptkdev/logger";
 import Listener from "./Listener.js";
 import Command from "./Command.js";
 import { PrismaClient } from "@prisma/client";
 
 export class Client extends DiscordClient {
+    public logger = new Logger();
     public db = new PrismaClient();
 
     public developerId?: string = "840213882147831879";
@@ -75,8 +77,23 @@ export class Client extends DiscordClient {
                         this.aliases.set(alias.toLowerCase(), command.name.toLowerCase())
                     );
 
-                console.log(`Loaded command ${command.name}`);
+                this.logger.info(`Loaded command ${command.name}`);
             }
+        }
+    };
+
+    private handleCoreListeners = async () => {
+        const files = readdirSync("dist/core-listeners").filter((f) => f.endsWith(".js"));
+
+        for (const file of files) {
+            const importedListener = (await import(`../../core-listeners/${file}`)).default;
+
+            const listener: Listener = new importedListener(this);
+
+            listener.once
+                ? this.once(listener.options.event, (...args) => void listener.run!(...args))
+                : this.on(listener.options.event, (...args) => void listener.run!(...args));
+            this.logger.info(`Loaded listener ${listener.name}`);
         }
     };
 
@@ -91,11 +108,12 @@ export class Client extends DiscordClient {
             listener.once
                 ? this.once(listener.options.event, (...args) => void listener.run!(...args))
                 : this.on(listener.options.event, (...args) => void listener.run!(...args));
-            console.log(`Loaded listener ${listener.name}`);
+            this.logger.info(`Loaded listener ${listener.name}`);
         }
     };
 
     public start = async (token: string) => {
+        await this.handleCoreListeners();
         await this.handleListeners();
         await this.handleCommands();
 

@@ -54,7 +54,7 @@ export default abstract class MessageCommandsListener extends Listener {
             )
                 return message.reply(`> ${(e as { message: string }).message}`);
 
-            return console.log(`whoops error: ${e}`);
+            return this.client.logger.error(`whoops error: ${e}`);
         }
     };
 }

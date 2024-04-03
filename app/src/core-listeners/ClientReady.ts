@@ -11,6 +11,6 @@ export default abstract class ClientReadyListener extends Listener {
     }
 
     public override run = async () => {
-        console.log(`Signed in as ${this.client.user!.tag} (${this.client.user!.id})`);
+        this.client.logger.info(`Signed in as ${this.client.user!.tag} (${this.client.user!.id})`);
     };
 }

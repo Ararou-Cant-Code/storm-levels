@@ -218,6 +218,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ptkdev/logger@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "@ptkdev/logger@npm:1.8.0"
+  dependencies:
+    chalk: "npm:^4.1.2"
+    fs-extra: "npm:^10.0.0"
+    lowdb: "npm:^1.0.0"
+    rotating-file-stream: "npm:^2.1.5"
+    strip-ansi: "npm:^6.0.0"
+  checksum: 10c0/d95f39eace89d2a5922e7f3ec474492ebe942b9ea6f5340a520cbad854a1a6b498b9d79b3a8fb51ab8d92acc2c0ca5a49db1065896335a1571fc7522c8d0868a
+  languageName: node
+  linkType: hard
+
 "@sapphire/async-queue@npm:^1.5.0":
   version: 1.5.2
   resolution: "@sapphire/async-queue@npm:1.5.2"
@@ -327,6 +340,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ansi-regex@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "ansi-regex@npm:5.0.1"
+  checksum: 10c0/9a64bb8627b434ba9327b60c027742e5d17ac69277960d041898596271d992d4d52ba7267a63ca10232e29f6107fc8a835f6ce8d719b88c5f8493f8254813737
+  languageName: node
+  linkType: hard
+
+"ansi-styles@npm:^4.1.0":
+  version: 4.3.0
+  resolution: "ansi-styles@npm:4.3.0"
+  dependencies:
+    color-convert: "npm:^2.0.1"
+  checksum: 10c0/895a23929da416f2bd3de7e9cb4eabd340949328ab85ddd6e484a637d8f6820d485f53933446f5291c3b760cbc488beb8e88573dd0f9c7daf83dccc8fe81b041
+  languageName: node
+  linkType: hard
+
 "callsites@npm:^3.1.0":
   version: 3.1.0
   resolution: "callsites@npm:3.1.0"
@@ -350,10 +379,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chalk@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "chalk@npm:4.1.2"
+  dependencies:
+    ansi-styles: "npm:^4.1.0"
+    supports-color: "npm:^7.1.0"
+  checksum: 10c0/4a3fef5cc34975c898ffe77141450f679721df9dde00f6c304353fa9c8b571929123b26a0e4617bde5018977eb655b31970c297b91b63ee83bb82aeb04666880
+  languageName: node
+  linkType: hard
+
 "chalk@npm:^5.0.1":
   version: 5.3.0
   resolution: "chalk@npm:5.3.0"
   checksum: 10c0/8297d436b2c0f95801103ff2ef67268d362021b8210daf8ddbe349695333eb3610a71122172ff3b0272f1ef2cf7cc2c41fdaa4715f52e49ffe04c56340feed09
+  languageName: node
+  linkType: hard
+
+"color-convert@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "color-convert@npm:2.0.1"
+  dependencies:
+    color-name: "npm:~1.1.4"
+  checksum: 10c0/37e1150172f2e311fe1b2df62c6293a342ee7380da7b9cfdba67ea539909afbd74da27033208d01d6d5cfc65ee7868a22e18d7e7648e004425441c0f8a15a7d7
+  languageName: node
+  linkType: hard
+
+"color-name@npm:~1.1.4":
+  version: 1.1.4
+  resolution: "color-name@npm:1.1.4"
+  checksum: 10c0/a1a3f914156960902f46f7f56bc62effc6c94e84b2cae157a526b1c1f74b677a47ec602bf68a61abfa2b42d15b7c5651c6dbe72a43af720bc588dff885b10f95
   languageName: node
   linkType: hard
 
@@ -400,12 +455,57 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fs-extra@npm:^10.0.0":
+  version: 10.1.0
+  resolution: "fs-extra@npm:10.1.0"
+  dependencies:
+    graceful-fs: "npm:^4.2.0"
+    jsonfile: "npm:^6.0.1"
+    universalify: "npm:^2.0.0"
+  checksum: 10c0/5f579466e7109719d162a9249abbeffe7f426eb133ea486e020b89bc6d67a741134076bf439983f2eb79276ceaf6bd7b7c1e43c3fd67fe889863e69072fb0a5e
+  languageName: node
+  linkType: hard
+
+"graceful-fs@npm:^4.1.3, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0":
+  version: 4.2.11
+  resolution: "graceful-fs@npm:4.2.11"
+  checksum: 10c0/386d011a553e02bc594ac2ca0bd6d9e4c22d7fa8cfbfc448a6d148c59ea881b092db9dbe3547ae4b88e55f1b01f7c4a2ecc53b310c042793e63aa44cf6c257f2
+  languageName: node
+  linkType: hard
+
+"has-flag@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "has-flag@npm:4.0.0"
+  checksum: 10c0/2e789c61b7888d66993e14e8331449e525ef42aac53c627cc53d1c3334e768bcb6abdc4f5f0de1478a25beec6f0bd62c7549058b7ac53e924040d4f301f02fd1
+  languageName: node
+  linkType: hard
+
+"is-promise@npm:^2.1.0":
+  version: 2.2.2
+  resolution: "is-promise@npm:2.2.2"
+  checksum: 10c0/2dba959812380e45b3df0fb12e7cb4d4528c989c7abb03ececb1d1fd6ab1cbfee956ca9daa587b9db1d8ac3c1e5738cf217bdb3dfd99df8c691be4c00ae09069
+  languageName: node
+  linkType: hard
+
 "iti@npm:^0.6.0":
   version: 0.6.0
   resolution: "iti@npm:0.6.0"
   dependencies:
     utility-types: "npm:^3.10.0"
   checksum: 10c0/675d60710922c3cd738cb297563cf904b1e14aa30c7b1ff7455d3649af7b80ebcae5cf46dcd178a668377a662e4c61771ef8fba16daf576f0a2e47148b074629
+  languageName: node
+  linkType: hard
+
+"jsonfile@npm:^6.0.1":
+  version: 6.1.0
+  resolution: "jsonfile@npm:6.1.0"
+  dependencies:
+    graceful-fs: "npm:^4.1.6"
+    universalify: "npm:^2.0.0"
+  dependenciesMeta:
+    graceful-fs:
+      optional: true
+  checksum: 10c0/4f95b5e8a5622b1e9e8f33c96b7ef3158122f595998114d1e7f03985649ea99cb3cd99ce1ed1831ae94c8c8543ab45ebd044207612f31a56fd08462140e46865
   languageName: node
   linkType: hard
 
@@ -416,10 +516,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.21":
+"lodash@npm:4, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
+  languageName: node
+  linkType: hard
+
+"lowdb@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "lowdb@npm:1.0.0"
+  dependencies:
+    graceful-fs: "npm:^4.1.3"
+    is-promise: "npm:^2.1.0"
+    lodash: "npm:4"
+    pify: "npm:^3.0.0"
+    steno: "npm:^0.4.1"
+  checksum: 10c0/a6b9184bec92a8f02718a6bf5941d87ba17e54cd4906cb8fcd00cf7ee52def678d36be5f5f11a26599e450911107fdc9b3e672b3e2838541aa58a649a88a40af
   languageName: node
   linkType: hard
 
@@ -458,6 +571,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pify@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "pify@npm:3.0.0"
+  checksum: 10c0/fead19ed9d801f1b1fcd0638a1ac53eabbb0945bf615f2f8806a8b646565a04a1b0e7ef115c951d225f042cca388fdc1cd3add46d10d1ed6951c20bd2998af10
+  languageName: node
+  linkType: hard
+
 "prisma@npm:5.2.0":
   version: 5.2.0
   resolution: "prisma@npm:5.2.0"
@@ -466,6 +586,13 @@ __metadata:
   bin:
     prisma: build/index.js
   checksum: 10c0/213f222ef30dfb3f74a5be095087c6a2dd3cdaf4a66f887be38636541499bd5b5fe2400d0746bd90017ac0845fe352bea695bae9f12c11add87d336bbe0377fc
+  languageName: node
+  linkType: hard
+
+"rotating-file-stream@npm:^2.1.5":
+  version: 2.1.6
+  resolution: "rotating-file-stream@npm:2.1.6"
+  checksum: 10c0/0a5a3beed8f0f80701d76e382eb7a48c5dbf6bcba067e75bf11a73d6f79fc7a4e525f8e0ab58a7934c09e412d6a85b4779aa7aa4435f07dbf874e96ad1e7002a
   languageName: node
   linkType: hard
 
@@ -478,11 +605,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"steno@npm:^0.4.1":
+  version: 0.4.4
+  resolution: "steno@npm:0.4.4"
+  dependencies:
+    graceful-fs: "npm:^4.1.3"
+  checksum: 10c0/026d42455aad66f0ab1ac8468dc75484a1df4ad7d8d62763a132afe009d087bb0730e57f628127c2f09dbfdc15e542d7fe9c7ca93e98202739621f8d251a8853
+  languageName: node
+  linkType: hard
+
 "storm-levels@workspace:.":
   version: 0.0.0-use.local
   resolution: "storm-levels@workspace:."
   dependencies:
     "@prisma/client": "npm:5.2.0"
+    "@ptkdev/logger": "npm:^1.8.0"
     "@sapphire/lexure": "npm:^1.1.7"
     "@sern/handler": "npm:^3.0.3"
     "@types/node": "npm:^17.0.25"
@@ -493,6 +630,24 @@ __metadata:
     typescript: "npm:5.0"
   languageName: unknown
   linkType: soft
+
+"strip-ansi@npm:^6.0.0":
+  version: 6.0.1
+  resolution: "strip-ansi@npm:6.0.1"
+  dependencies:
+    ansi-regex: "npm:^5.0.1"
+  checksum: 10c0/1ae5f212a126fe5b167707f716942490e3933085a5ff6c008ab97ab2f272c8025d3aa218b7bd6ab25729ca20cc81cddb252102f8751e13482a5199e873680952
+  languageName: node
+  linkType: hard
+
+"supports-color@npm:^7.1.0":
+  version: 7.2.0
+  resolution: "supports-color@npm:7.2.0"
+  dependencies:
+    has-flag: "npm:^4.0.0"
+  checksum: 10c0/afb4c88521b8b136b5f5f95160c98dee7243dc79d5432db7efc27efb219385bbc7d9427398e43dd6cc730a0f87d5085ce1652af7efbe391327bc0a7d0f7fc124
+  languageName: node
+  linkType: hard
 
 "tr46@npm:~0.0.3":
   version: 0.0.3
@@ -555,6 +710,13 @@ __metadata:
   dependencies:
     "@fastify/busboy": "npm:^2.0.0"
   checksum: 10c0/0cb62c57edc938f242c116e41fb2a74f81ed20e7e2e554cf1ceae548520df0592385b53d444f8cf59e1e10e6b27acd153198d8a2353b3040d0a778a099aac92c
+  languageName: node
+  linkType: hard
+
+"universalify@npm:^2.0.0":
+  version: 2.0.1
+  resolution: "universalify@npm:2.0.1"
+  checksum: 10c0/73e8ee3809041ca8b818efb141801a1004e3fc0002727f1531f4de613ea281b494a40909596dae4a042a4fb6cd385af5d4db2e137b1362e0e91384b828effd3a
   languageName: node
   linkType: hard
 
