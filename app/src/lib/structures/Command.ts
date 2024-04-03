@@ -69,7 +69,8 @@ export default abstract class Command {
         if (
             command.options.permissions &&
             command.options.permissions.trusted_member &&
-            !context.executed!.userRoles!.includes(guildConfig!.roles.level_roles[20])
+            !context.executed!.userRoles!.includes(guildConfig!.roles.level_roles[20]) &&
+            !context.executed!.userRoles!.includes(guildConfig!.roles.allStaff)
         )
             return "FAILED";
 
