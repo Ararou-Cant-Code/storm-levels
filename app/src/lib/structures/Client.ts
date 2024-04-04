@@ -4,9 +4,12 @@ import { readdirSync } from "node:fs";
 import Logger from "@ptkdev/logger";
 import Listener from "./Listener.js";
 import Command from "./Command.js";
+import Sentry from "@sentry/node";
 import { PrismaClient } from "@prisma/client";
+import SentryHandler from "../classes/SentryHandler.js";
 
 export class Client extends DiscordClient {
+    public sentryHandler = new SentryHandler({ client: this }, { sendEmbed: true, sendLogToConsole: true });
     public logger = new Logger();
     public db = new PrismaClient();
 
@@ -116,6 +119,10 @@ export class Client extends DiscordClient {
         await this.handleCoreListeners();
         await this.handleListeners();
         await this.handleCommands();
+
+        await Sentry.init({
+            dsn: process.env.SENTRY_DSN!,
+        });
 
         await this.login(token).catch((e) => {
             throw new Error("Failed to start client: " + e);

@@ -22,7 +22,6 @@ export default abstract class MessageCommandsListener extends Listener {
         if (!prefixRegex.test(message.content)) return;
 
         const [matchedPrefix] = message.content.match(prefixRegex)!;
-
         const rawArgs = message.content.slice(matchedPrefix!.length).trim().split(/ +/g);
 
         const command = rawArgs.shift()!.toLowerCase();
@@ -30,15 +29,15 @@ export default abstract class MessageCommandsListener extends Listener {
         const cmd = this.client.commands.get(command) || this.client.commands.get(this.client.aliases.get(command)!);
         if (!cmd) return;
 
-        try {
-            cmd.context.executed = {
-                message,
-                user: message.author,
-                userRoles: message.member!.roles.cache.map((r) => r.id),
-                channel: message.channel!,
-                guild: message.guild!,
-            };
+        cmd.context.executed = {
+            message,
+            user: message.author,
+            userRoles: message.member!.roles.cache.map((r) => r.id),
+            channel: message.channel!,
+            guild: message.guild!,
+        };
 
+        try {
             // Handle ArgumentStream, args and then test and run the command.
             const stream = new ArgumentStream(parser.run(cmd.lexer.run(message.content)));
             const args = new Args(cmd, cmd.context, rawArgs, stream, message);
@@ -54,7 +53,11 @@ export default abstract class MessageCommandsListener extends Listener {
             )
                 return message.reply(`> ${(e as { message: string }).message}`);
 
-            return this.client.logger.error(`whoops error: ${e}`);
+            return this.client.sentryHandler.run("MessageCommand", e, {
+                command: cmd,
+                commandContext: cmd.context,
+                message,
+            });
         }
     };
 }
