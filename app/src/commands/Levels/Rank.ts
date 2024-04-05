@@ -69,7 +69,11 @@ export default abstract class RankCommand extends Command {
             })
             .setDisplayName(member.nickname ?? member.user.displayName)
             .setUsername("@" + member.user.username)
-            .setAvatar(member!.user.displayAvatarURL())
+            .setAvatar(
+                member!.user.displayAvatarURL({
+                    forceStatic: true,
+                })
+            )
             .setOverlay(50)
             .setBackground(
                 cardData ? cardData.background : "https://i.ibb.co/R9dNGQg/d0aed536fc9a360003d5ee26b9555d9f-1.png"
