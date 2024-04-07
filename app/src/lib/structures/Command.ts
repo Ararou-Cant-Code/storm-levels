@@ -1,12 +1,21 @@
-import { type Guild, type Message, type PermissionsBitField, type User, type Channel } from "discord.js";
+import {
+    type Guild,
+    type Message,
+    type PermissionsBitField,
+    type User,
+    type Channel,
+    ChatInputCommandInteraction,
+} from "discord.js";
 import { Client } from "./Client.js";
 import { client } from "../../index.js";
 import { PrismaClient } from "@prisma/client";
 import { handleMessage } from "../utils/functions.js";
 import Args from "./Args.js";
 import { Lexer } from "@sapphire/lexure";
+import Context from "./Context.js";
 
 interface CommandOptions {
+    slashCapable?: boolean | false;
     name: string;
     aliases?: string[];
     flags?: string[];
@@ -30,7 +39,7 @@ export interface CommandContext {
     directory: string;
 
     executed?: {
-        message: Message;
+        message: Message | ChatInputCommandInteraction;
         user: User;
         userRoles?: string[] | null;
         guild: Guild;
@@ -49,7 +58,7 @@ export default abstract class Command {
     public name: string;
     public aliases?: string[];
 
-    public test = async (command: Command, context: CommandContext, message: Message, args?: Args) => {
+    public test = async (command: Command, context: CommandContext, ctx: Context, args?: Args) => {
         const guildConfig = context.client.guildConfigs.get(context.executed!.guild.id);
 
         if (
@@ -80,13 +89,9 @@ export default abstract class Command {
             context.executed!.channel.id !== guildConfig!.channels.commands &&
             !context.executed!.userRoles!.includes(guildConfig!.roles.allStaff)
         )
-            return handleMessage(
-                message,
-                context,
-                `This command belongs in <#${guildConfig!.channels.commands}>, not here.`
-            );
+            return ctx.reply("go to bot commands pls thanks");
 
-        return this.run(message, args);
+        return this.run(ctx, args);
     };
 
     public abstract run: (...args: any[]) => unknown;
@@ -105,5 +110,14 @@ export default abstract class Command {
                 ["«", "»"],
             ],
         });
+    }
+
+    public toJSON(): any {
+        return {
+            name: this.name,
+            description: this.options.description,
+            detailedDescription: this.options.detailedDescription,
+            directory: this.context.directory,
+        };
     }
 }

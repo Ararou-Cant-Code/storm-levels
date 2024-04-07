@@ -1,4 +1,4 @@
-import { Collection, Client as DiscordClient, ClientOptions as DiscordClientOptions } from "discord.js";
+import { Collection, Client as DiscordClient, ClientOptions as DiscordClientOptions, REST, Routes } from "discord.js";
 import { ClientOptions, GuildConfigOptions } from "../utils/constants.js";
 import { readdirSync } from "node:fs";
 import Logger from "@ptkdev/logger";
@@ -22,6 +22,8 @@ export class Client extends DiscordClient {
 
     public commands: Collection<String, Command> = new Collection();
     public aliases: Map<string, string> = new Map();
+
+    public slashCommands: Collection<String, Command> = new Collection();
 
     public guildConfigs: Map<string, GuildConfigOptions> = new Map().set(
         "1220036404969472010", // The Storm.
@@ -74,6 +76,7 @@ export class Client extends DiscordClient {
                 };
 
                 this.commands.set(command.name.toLowerCase(), command);
+                this.slashCommands.set(command.name.toLowerCase(), command);
 
                 if (command.aliases)
                     command.aliases.forEach((alias) =>
@@ -119,8 +122,9 @@ export class Client extends DiscordClient {
         await this.handleCoreListeners();
         await this.handleListeners();
         await this.handleCommands();
+       // await this.handleSlashCommands(token);
 
-        await Sentry.init({
+        Sentry.init({
             dsn: process.env.SENTRY_DSN!,
         });
 

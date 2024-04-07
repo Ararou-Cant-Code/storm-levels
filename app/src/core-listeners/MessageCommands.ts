@@ -1,11 +1,16 @@
-import { Events, Message } from "discord.js";
+import { BaseInteraction, Events, Message } from "discord.js";
 import { Client } from "../lib/structures/Client.js";
 import Listener from "../lib/structures/Listener.js";
 import Args from "../lib/structures/Args.js";
 import { Parser, PrefixedStrategy, ArgumentStream } from "@sapphire/lexure";
+import Context from "../lib/structures/Context.js";
 
 const parser = new Parser(new PrefixedStrategy(["--", "-", "—"], ["=", ":"]));
 const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const getCtx = function (wrappable: Message | BaseInteraction) {
+    const ctx = Context.wrap(wrappable);
+    return ctx;
+};
 
 export default abstract class MessageCommandsListener extends Listener {
     public constructor(client: Client) {
@@ -41,7 +46,8 @@ export default abstract class MessageCommandsListener extends Listener {
             // Handle ArgumentStream, args and then test and run the command.
             const stream = new ArgumentStream(parser.run(cmd.lexer.run(message.content)));
             const args = new Args(cmd, cmd.context, rawArgs, stream, message);
-            await cmd.test(cmd, cmd.context, message, args);
+
+            await cmd.test(cmd, cmd.context, getCtx(message), args);
         } catch (e) {
             // No need to do any actual reporting on this one, only used for permission failure.
             if ((e as { name: string }).name.includes("CommandRunFailure")) return;

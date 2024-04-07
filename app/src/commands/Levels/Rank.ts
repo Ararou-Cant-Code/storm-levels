@@ -1,9 +1,10 @@
-import { AttachmentBuilder, Message } from "discord.js";
+import { AttachmentBuilder } from "discord.js";
 import Command, { CommandContext } from "../../lib/structures/Command.js";
 import { BuiltInGraphemeProvider, Font, RankCardBuilder } from "canvacord";
 import { calcXp } from "../../lib/utils/functions.js";
 import Args from "../../lib/structures/Args.js";
 import { GenericFailure } from "../../lib/utils/errors.js";
+import Context from "../../lib/structures/Context.js";
 
 export default abstract class RankCommand extends Command {
     public constructor(context: CommandContext) {
@@ -20,33 +21,33 @@ export default abstract class RankCommand extends Command {
         });
     }
 
-    public override run = async (message: Message, args: Args) => {
+    public override run = async (ctx: Context, args: Args) => {
         Font.loadDefault();
 
-        const member = await args.returnMemberFromIndex(0).catch(() => message.member!);
+        const member = await args.returnMemberFromIndex(0).catch(() => ctx.member!);
         if (member.user.bot) throw new GenericFailure("That user is a bot.");
 
         const cardData = await this.context.client.db.cards.findFirst({
             where: {
                 memberId: member.id,
-                guildId: message.guild!.id,
+                guildId: ctx.guild!.id,
             },
         });
 
         const levels = await this.context.client.db.levels.findFirst({
             where: {
-                guildId: message.guild!.id,
+                guildId: ctx.guild!.id,
                 memberId: member.id,
             },
         });
         if (!levels) throw new GenericFailure("There is no levels for this server.");
 
         if (!levels.level && !levels.xp)
-            return message.reply(`${member.id === message.author.id ? "You" : "They"} have no XP!`);
+            return ctx.reply(`${member.id === ctx.author.id ? "You" : "They"} have no XP!`);
 
         let allLevels = await this.context.client.db.levels.findMany({
             where: {
-                guildId: message.guild!.id,
+                guildId: ctx.guild!.id,
             },
         });
         allLevels.sort((a, b) => {
@@ -85,6 +86,6 @@ export default abstract class RankCommand extends Command {
             .setGraphemeProvider(BuiltInGraphemeProvider.Blobmoji)
             .build({ format: "png" });
 
-        return message.reply({ files: [new AttachmentBuilder(rank)] });
+        return ctx.reply({ files: [new AttachmentBuilder(rank)] });
     };
 }

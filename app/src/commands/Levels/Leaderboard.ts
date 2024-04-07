@@ -1,7 +1,8 @@
-import { EmbedField, Message } from "discord.js";
+import { EmbedField } from "discord.js";
 import Command, { CommandContext } from "../../lib/structures/Command.js";
 import { formatPosition, setPages } from "../../lib/utils/functions.js";
 import Args from "../../lib/structures/Args.js";
+import Context from "../../lib/structures/Context.js";
 
 export default abstract class LeaderboardCommand extends Command {
     public constructor(context: CommandContext) {
@@ -18,15 +19,15 @@ export default abstract class LeaderboardCommand extends Command {
         });
     }
 
-    public override run = async (message: Message, args: Args) => {
+    public override run = async (ctx: Context, args: Args) => {
         const fields: EmbedField[] = [];
 
         const levels = await this.context.db.levels.findMany({
             where: {
-                guildId: message.guild!.id,
+                guildId: ctx.guild!.id,
             },
         });
-        if (!levels) return message.reply("This guild has no level data.");
+        if (!levels) return ctx.reply("This guild has no level data.");
 
         levels.sort((a, b) => {
             if (a.level === b.level) return b.xp - a.xp;
@@ -55,7 +56,7 @@ export default abstract class LeaderboardCommand extends Command {
                 name: `${this.context.client.user!.tag} (${this.context.client.user!.id})`,
                 iconURL: this.context.client.user!.displayAvatarURL(),
             })
-            .setTitle(`Leaderboard for ${message.guild!.name}.`)
+            .setTitle(`Leaderboard for ${ctx.guild!.name}.`)
             .setTimestamp();
 
         if (pages.length >= 2)
@@ -63,6 +64,6 @@ export default abstract class LeaderboardCommand extends Command {
                 text: `Page ${page + 1} of ${pages.length}.`,
             });
 
-        return message.channel.send({ embeds: [embed] });
+        return ctx.reply({ embeds: [embed] });
     };
 }
