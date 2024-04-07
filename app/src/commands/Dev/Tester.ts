@@ -1,6 +1,6 @@
-import { Message } from "discord.js";
 import Command, { CommandContext } from "../../lib/structures/Command.js";
 import Args from "../../lib/structures/Args.js";
+import Context from "../../lib/structures/Context.js";
 
 export default abstract class TesterCommand extends Command {
     public constructor(context: CommandContext) {
@@ -14,9 +14,9 @@ export default abstract class TesterCommand extends Command {
         });
     }
 
-    public override run = async (message: Message, args: Args) => {
+    public override run = async (ctx: Context, args: Args) => {
         const flag = args.getFlags("hi", "h", "test", "t");
 
-        return message.channel.send(`Flag: ${flag ? "Yes" : "No"}`);
+        return ctx.reply(`Flag: ${flag ? "Yes" : "No"}`);
     };
 }
