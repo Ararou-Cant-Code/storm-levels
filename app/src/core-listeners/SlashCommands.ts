@@ -17,16 +17,25 @@ export default abstract class ClientReadyListener extends Listener {
     }
 
     public override run = async (interaction: ChatInputCommandInteraction<"cached">) => {
-        if (interaction.isCommand()) {
-            const command = this.client.slashCommands.get(interaction.commandName);
-            command!.context.executed = {
-                message: interaction,
-                user: interaction.user,
-                userRoles: interaction.member!.roles.cache.map((r) => r.id),
-                channel: interaction.channel!,
-                guild: interaction.guild!,
-            };
+        if (!interaction.isCommand()) return; // Return nothing if the interaction is not a command.
+
+        // Get the command class from the slashCommands collection
+        const command = this.client.slashCommands.get(interaction.commandName);
+
+        // Set the command context.
+        command!.context.executed = {
+            message: interaction,
+            user: interaction.user,
+            userRoles: interaction.member!.roles.cache.map((r) => r.id),
+            channel: interaction.channel!,
+            guild: interaction.guild!,
+        };
+
+        try {
+            // Test and run the command.
             return command!.test(command!, command!.context, getCtx(interaction));
+        } catch (error) {
+            return this.client.logger.error(error as any); // Somebody please scream at me to actually implement this soon.
         }
     };
 }

@@ -18,7 +18,11 @@ export default abstract class ClientReadyListener extends Listener {
 
     private handleSlashCommands = async () => {
         const rest = new REST().setToken(process.env.TOKEN!);
-        const commands = this.client.slashCommands.filter((c) => c.options.slashCapable).map((c) => c.toJSON());
+        const commands = this.client.slashCommands
+            .filter((c) => c.options.slashCapable)
+            .map((c) => c.options.data)
+            .filter((c) => c)
+            .map((c) => c!.toJSON());
 
         const data = (await rest.put(Routes.applicationCommands(this.client.application!.id), {
             body: commands,

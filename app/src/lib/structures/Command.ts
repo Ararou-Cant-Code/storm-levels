@@ -5,6 +5,7 @@ import {
     type User,
     type Channel,
     ChatInputCommandInteraction,
+    SlashCommandBuilder,
 } from "discord.js";
 import { Client } from "./Client.js";
 import { client } from "../../index.js";
@@ -16,6 +17,7 @@ import Context from "./Context.js";
 
 interface CommandOptions {
     slashCapable?: boolean | false;
+    data?: Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
     name: string;
     aliases?: string[];
     flags?: string[];

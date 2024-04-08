@@ -47,7 +47,15 @@ export default abstract class MessageCommandsListener extends Listener {
             const stream = new ArgumentStream(parser.run(cmd.lexer.run(message.content)));
             const args = new Args(cmd, cmd.context, rawArgs, stream, message);
 
-            await cmd.test(cmd, cmd.context, getCtx(message), args);
+            await cmd
+                .test(cmd, cmd.context, getCtx(message), args)
+                .then(() =>
+                    this.client.logger.debug(
+                        `${message.author.username} (${message.author.id}) executed command ${cmd.name} in ${
+                            (message.channel as { name: string }).name
+                        } (${message.channel!.id})`
+                    )
+                );
         } catch (e) {
             // No need to do any actual reporting on this one, only used for permission failure.
             if ((e as { name: string }).name.includes("CommandRunFailure")) return;

@@ -1,7 +1,7 @@
-import { AttachmentBuilder } from "discord.js";
+import { AttachmentBuilder, GuildMember, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import Command, { CommandContext } from "../../lib/structures/Command.js";
 import { BuiltInGraphemeProvider, Font, RankCardBuilder } from "canvacord";
-import { calcXp } from "../../lib/utils/functions.js";
+import { calcXp, getMember } from "../../lib/utils/functions.js";
 import Args from "../../lib/structures/Args.js";
 import { GenericFailure } from "../../lib/utils/errors.js";
 import Context from "../../lib/structures/Context.js";
@@ -9,6 +9,14 @@ import Context from "../../lib/structures/Context.js";
 export default abstract class RankCommand extends Command {
     public constructor(context: CommandContext) {
         super(context, {
+            slashCapable: true,
+            data: new SlashCommandBuilder()
+                .setName("rank")
+                .setDescription("View yours or another members rank.")
+                .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages)
+                .addUserOption((option) =>
+                    option.setName("member").setDescription("The member to view.").setRequired(false)
+                ),
             name: "Rank",
             aliases: ["level", "lvl", "rnk"],
             permissions: {
@@ -24,7 +32,14 @@ export default abstract class RankCommand extends Command {
     public override run = async (ctx: Context, args: Args) => {
         Font.loadDefault();
 
-        const member = await args.returnMemberFromIndex(0).catch(() => ctx.member!);
+        const member = (
+            ctx.isInteraction()
+                ? await getMember(
+                      ctx.guild,
+                      ctx.options.getUser("member", false)! ? ctx.options.getUser("member", false)!.id : ctx.member.id
+                  )
+                : await args.returnMemberFromIndex(0).catch(() => ctx.member!)
+        ) as GuildMember;
         if (member.user.bot) throw new GenericFailure("That user is a bot.");
 
         const cardData = await this.context.client.db.cards.findFirst({

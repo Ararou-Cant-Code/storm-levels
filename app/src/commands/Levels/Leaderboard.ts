@@ -1,4 +1,4 @@
-import { EmbedField } from "discord.js";
+import { EmbedField, SlashCommandBuilder } from "discord.js";
 import Command, { CommandContext } from "../../lib/structures/Command.js";
 import { formatPosition, setPages } from "../../lib/utils/functions.js";
 import Args from "../../lib/structures/Args.js";
@@ -7,6 +7,16 @@ import Context from "../../lib/structures/Context.js";
 export default abstract class LeaderboardCommand extends Command {
     public constructor(context: CommandContext) {
         super(context, {
+            slashCapable: true,
+            data: new SlashCommandBuilder()
+                .setName("leaderboard")
+                .setDescription("View all member levels in the guild.")
+                .addNumberOption((option) =>
+                    option
+                        .setName("page")
+                        .setDescription("The page to view. Defaults to the first page.")
+                        .setRequired(false)
+                ),
             name: "Leaderboard",
             aliases: ["lb", "levels", "ranks", "lvls"],
             permissions: {
@@ -45,7 +55,9 @@ export default abstract class LeaderboardCommand extends Command {
             });
         }
 
-        let page = (await args.getNumberIndex(1).catch(() => 1)) - 1;
+        let page = ctx.isInteraction()
+            ? (ctx.options.getNumber("page", false) || 1) - 1
+            : (await args.getNumberIndex(1).catch(() => 1)) - 1;
 
         const pages = setPages(fields);
         if (!pages[page]) page = 0;
