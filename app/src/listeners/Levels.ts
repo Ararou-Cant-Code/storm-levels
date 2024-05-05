@@ -16,6 +16,15 @@ export default abstract class LevelsListener extends Listener {
     public override run = async (message: Message) => {
         if (!message.inGuild() || message.author.bot) return;
 
+        const blacklistedData = await this.client.db.blacklists.findFirst({
+            where: {
+                guildId: message.guild!.id,
+                userId: message.author.id,
+            },
+        });
+        if (blacklistedData && blacklistedData.types.length && blacklistedData.types.includes("LEVELS_BLACKLISTED"))
+            return;
+
         const prefixRegex = new RegExp(`^(<@!?${this.client.user!.id}>|${escapeRegex(this.client.defaultPrefix!)})\s*`);
         if (prefixRegex.test(message.content)) return;
 
@@ -56,7 +65,7 @@ export default abstract class LevelsListener extends Listener {
 
                 await message.channel.send(`${message.author} has reached level ${level.level}!`);
                 await this.client.db.levels.update({
-                    where: {            
+                    where: {
                         guildId: message.guild!.id,
                         memberId: message.author.id,
                     },

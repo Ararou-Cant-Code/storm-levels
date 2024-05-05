@@ -7,6 +7,14 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model Blacklists {
+    guildId String
+    userId  String @id
+
+    reason String
+    types  String[] @default([]) // Values: COMMANDS_BLACKLISTED, LEVELS_BLACKLISTED
+}
+
 model Levels {
     memberId String @id
     guildId  String

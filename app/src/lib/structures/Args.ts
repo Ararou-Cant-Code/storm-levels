@@ -46,6 +46,12 @@ export default class Args {
         return this.commandArgs.join(" ");
     };
 
+    public getRest = async (index: number = 1) => {
+        if (!this.commandArgs.length) throw new ArgumentError("The raw array is likely empty.");
+
+        return this.commandArgs.slice(index).join(" ");
+    };
+
     public getIndex = async (index: number) => {
         if (!this.commandArgs.length) throw new ArgumentError("The raw array is likely empty.");
 

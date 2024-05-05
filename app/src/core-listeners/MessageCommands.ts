@@ -23,6 +23,15 @@ export default abstract class MessageCommandsListener extends Listener {
     public override run = async (message: Message) => {
         if (message.author.bot) return;
 
+        const blacklistedData = await this.client.db.blacklists.findFirst({
+            where: {
+                guildId: message.guild!.id,
+                userId: message.author.id,
+            },
+        });
+        if (blacklistedData && blacklistedData.types.length && blacklistedData.types.includes("COMMANDS_BLACKLISTED"))
+            return;
+
         const prefixRegex = new RegExp(`^(<@!?${this.client.user!.id}>|${escapeRegex(this.client.defaultPrefix!)})\s*`);
         if (!prefixRegex.test(message.content)) return;
 

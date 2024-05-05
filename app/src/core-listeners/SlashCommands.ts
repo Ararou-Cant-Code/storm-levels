@@ -19,6 +19,15 @@ export default abstract class ClientReadyListener extends Listener {
     public override run = async (interaction: ChatInputCommandInteraction<"cached">) => {
         if (!interaction.isCommand()) return; // Return nothing if the interaction is not a command.
 
+        const blacklistedData = await this.client.db.blacklists.findFirst({
+            where: {
+                guildId: interaction.guild!.id,
+                userId: interaction.user.id,
+            },
+        });
+        if (blacklistedData && blacklistedData.types.length && blacklistedData.types.includes("COMMANDS_BLACKLISTED"))
+            return;
+
         // Get the command class from the slashCommands collection
         const command = this.client.slashCommands.get(interaction.commandName);
 
