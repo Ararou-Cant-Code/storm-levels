@@ -704,15 +704,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sern/handler@npm:^3.0.3":
-  version: 3.3.4
-  resolution: "@sern/handler@npm:3.3.4"
+"@sern/handler@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@sern/handler@npm:4.0.0"
   dependencies:
+    "@sern/ioc": "npm:^1.1.0"
     callsites: "npm:^3.1.0"
-    iti: "npm:^0.6.0"
+    cron: "npm:^3.1.7"
+    deepmerge: "npm:^4.3.1"
     rxjs: "npm:^7.8.0"
-    ts-results-es: "npm:^4.0.0"
-  checksum: 10c0/46b944616dcaf7feccf7899e2ae62d94730efab71dfffd6ab3bb157da5b12ee6a30e837670d131b5b4ca55268415a390e362836976ff033039e9c64d8ae4165d
+    ts-results-es: "npm:^4.1.0"
+  checksum: 10c0/d364a5c9a8d80c43344d6a964c4d3151c4dd3d9ff78272364adf258e31b34d95b0c7d632e303eefcf2a9d520cd8632f38b3a00edce50c28043ab2dd68b039463
+  languageName: node
+  linkType: hard
+
+"@sern/ioc@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@sern/ioc@npm:1.1.0"
+  checksum: 10c0/2a8eac991c97c3942baac8b855d380573ed97a0eb49bcddebcc8b36f587be977762b7acc72bebadb1f5dbc39c400a2011ea72f75962d7b91392be1051528ddd7
   languageName: node
   linkType: hard
 
@@ -750,6 +759,13 @@ __metadata:
   dependencies:
     tslib: "npm:^2.4.0"
   checksum: 10c0/4e0975ee0ed8202e4af0be45a379ac11fa98e8c17cb5a038bc1d29f6e1bd37eb84be991d725d214d0f257d4aaccd67e5ac6e68c3c81cdd3c7f3f678d05d52cb7
+  languageName: node
+  linkType: hard
+
+"@types/luxon@npm:~3.4.0":
+  version: 3.4.2
+  resolution: "@types/luxon@npm:3.4.2"
+  checksum: 10c0/d835467de3daf7e17ba78b50bb5a14efd94272439ca067990d71332a54b311544459c69623eddd243b511b28d70194c9591a9ee8cf9c038962c965f991affd7e
   languageName: node
   linkType: hard
 
@@ -865,6 +881,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cron@npm:^3.1.7":
+  version: 3.1.7
+  resolution: "cron@npm:3.1.7"
+  dependencies:
+    "@types/luxon": "npm:~3.4.0"
+    luxon: "npm:~3.4.0"
+  checksum: 10c0/c009c79714ae2916233c8cd2700cdda17c9e20d0e8e32eeb6c0d63b8e89bb7c38dbf9f0423f0f6da52d3f054f735aabb988cbe5b25bb55d9c6ca48ed4cfaaaec
+  languageName: node
+  linkType: hard
+
 "css-background-parser@npm:^0.1.0":
   version: 0.1.0
   resolution: "css-background-parser@npm:0.1.0"
@@ -894,6 +920,13 @@ __metadata:
     css-color-keywords: "npm:^1.0.0"
     postcss-value-parser: "npm:^4.0.2"
   checksum: 10c0/fde850a511d5d3d7c55a1e9b8ed26b69a8ad4868b3487e36ebfbfc0b96fc34bc977d9cd1d61a289d0c74d3f9a662d8cee297da53d4433bf2e27d6acdff8e1003
+  languageName: node
+  linkType: hard
+
+"deepmerge@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "deepmerge@npm:4.3.1"
+  checksum: 10c0/e53481aaf1aa2c4082b5342be6b6d8ad9dfe387bc92ce197a66dea08bd4265904a087e75e464f14d1347cf2ac8afe1e4c16b266e0561cc5df29382d3c5f80044
   languageName: node
   linkType: hard
 
@@ -1025,15 +1058,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"iti@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "iti@npm:0.6.0"
-  dependencies:
-    utility-types: "npm:^3.10.0"
-  checksum: 10c0/675d60710922c3cd738cb297563cf904b1e14aa30c7b1ff7455d3649af7b80ebcae5cf46dcd178a668377a662e4c61771ef8fba16daf576f0a2e47148b074629
-  languageName: node
-  linkType: hard
-
 "jsonfile@npm:^6.0.1":
   version: 6.1.0
   resolution: "jsonfile@npm:6.1.0"
@@ -1081,6 +1105,13 @@ __metadata:
     pify: "npm:^3.0.0"
     steno: "npm:^0.4.1"
   checksum: 10c0/a6b9184bec92a8f02718a6bf5941d87ba17e54cd4906cb8fcd00cf7ee52def678d36be5f5f11a26599e450911107fdc9b3e672b3e2838541aa58a649a88a40af
+  languageName: node
+  linkType: hard
+
+"luxon@npm:~3.4.0":
+  version: 3.4.4
+  resolution: "luxon@npm:3.4.4"
+  checksum: 10c0/02e26a0b039c11fd5b75e1d734c8f0332c95510f6a514a9a0991023e43fb233884da02d7f966823ffb230632a733fc86d4a4b1e63c3fbe00058b8ee0f8c728af
   languageName: node
   linkType: hard
 
@@ -1226,7 +1257,7 @@ __metadata:
     "@sapphire/lexure": "npm:^1.1.7"
     "@sapphire/time-utilities": "npm:^1.7.12"
     "@sentry/node": "npm:^7.109.0"
-    "@sern/handler": "npm:^3.0.3"
+    "@sern/handler": "npm:^4.0.0"
     "@types/node": "npm:^20.0.0"
     canvacord: "npm:^6.0.0"
     discord.js: "npm:latest"
@@ -1314,7 +1345,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-results-es@npm:^4.0.0, ts-results-es@npm:^4.1.0":
+"ts-results-es@npm:^4.1.0":
   version: 4.1.0
   resolution: "ts-results-es@npm:4.1.0"
   checksum: 10c0/8cd576edacc885695f95f0577e665ccbe1806c6cacc88fe2ccc0b8fcd37e440b507940c574a6cfb167b575f1bf245583d66164a091e9a6122cbf33c8943df9d5
@@ -1385,13 +1416,6 @@ __metadata:
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
   checksum: 10c0/41a5bdd214df2f6c3ecf8622745e4a366c4adced864bc3c833739791aeeeb1838119af7daed4ba36428114b5c67dcda034a79c882e97e43c03e66a4dd7389942
-  languageName: node
-  linkType: hard
-
-"utility-types@npm:^3.10.0":
-  version: 3.11.0
-  resolution: "utility-types@npm:3.11.0"
-  checksum: 10c0/2f1580137b0c3e6cf5405f37aaa8f5249961a76d26f1ca8efc0ff49a2fc0e0b2db56de8e521a174d075758e0c7eb3e590edec0832eb44478b958f09914920f19
   languageName: node
   linkType: hard
 
